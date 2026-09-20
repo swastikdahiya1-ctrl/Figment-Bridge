@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS Generated
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary Adobe Auto-Saves
+**/Adobe After Effects Auto-Save/

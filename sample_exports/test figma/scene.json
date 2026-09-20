@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "name": "set1",
+  "canvas": {
+    "width": 1379,
+    "height": 563
+  },
+  "scale": 0.01,
+  "nodes": [
+    {
+      "id": "1000:6",
+      "name": "Rectangle 192",
+      "type": "RECTANGLE",
+      "x": 0,
+      "y": 0,
+      "width": 1379,
+      "height": 563,
+      "depth": 0,
+      "fill": "#3f3f3f",
+      "opacity": 1
+    },
+    {
+      "id": "1000:7",
+      "name": "hehe test 2",
+      "type": "TEXT",
+      "x": 80,
+      "y": 89,
+      "width": 567,
+      "height": 128,
+      "depth": 1,
+      "fill": "#ffffff",
+      "opacity": 1,
+      "text": "hehe test 2",
+      "fontSize": 106.15630340576172,
+      "fontName": {
+        "family": "Inter",
+        "style": "Regular"
+      },
+      "textAlignHorizontal": "LEFT",
+      "textAlignVertical": "TOP"
+    },
+    {
+      "id": "1001:4",
+      "name": "Rectangle 193",
+      "type": "RECTANGLE",
+      "x": 808,
+      "y": 153,
+      "width": 308,
+      "height": 211,
+      "depth": 2,
+      "fill": "#70b552",
+      "opacity": 1
+    },
+    {
+      "id": "1001:5",
+      "name": "Star 1",
+      "type": "STAR",
+      "x": 273,
+      "y": 252,
+      "width": 164,
+      "height": 164,
+      "depth": 3,
+      "fill": "#d9d9d9",
+      "opacity": 1,
+      "svg_data": "<svg width=\"156\" height=\"153\" viewBox=\"0 0 156 153\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M115.911 0L103.524 58.2746L155.119 88.0628L95.8688 94.2903L83.4822 152.565L59.2502 98.139L8.71139e-05 104.366L44.274 64.502L20.0421 10.0762L71.6369 39.8644L115.911 0Z\" fill=\"#D9D9D9\"/>\n</svg>\n"
+    },
+    {
+      "id": "1001:7",
+      "name": "Vector 22",
+      "type": "VECTOR",
+      "x": 427,
+      "y": 296,
+      "width": 234,
+      "height": 194,
+      "depth": 4,
+      "fill": "#d9d9d9",
+      "opacity": 1,
+      "svg_data": "<svg width=\"234\" height=\"195\" viewBox=\"0 0 234 195\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M10.7626 113.518C-38.7374 64.0184 93.562 -37.2858 182.763 14.2142C214.263 42.5895 263.763 112.84 209.763 166.84C142.263 234.34 60.2626 163.018 10.7626 113.518Z\" fill=\"#D9D9D9\"/>\n</svg>\n"
+    }
+  ]
+}

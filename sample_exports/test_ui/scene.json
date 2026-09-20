@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "name": "test_ui",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "scale": 0.01,
+  "nodes": [
+    {
+      "id": "bg",
+      "type": "RECTANGLE",
+      "name": "Background",
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1080,
+      "fill": "#18202A",
+      "depth": 0
+    },
+    {
+      "id": "card",
+      "type": "RECTANGLE",
+      "name": "Card",
+      "x": 240,
+      "y": 180,
+      "width": 560,
+      "height": 360,
+      "fill": "#F2F2F2",
+      "depth": 1
+    },
+    {
+      "id": "title",
+      "type": "TEXT",
+      "name": "Title",
+      "x": 288,
+      "y": 238,
+      "width": 300,
+      "height": 50,
+      "text": "Login",
+      "fontSize": 42,
+      "fill": "#111111",
+      "depth": 2
+    },
+    {
+      "id": "sub",
+      "type": "TEXT",
+      "name": "Subtitle",
+      "x": 288,
+      "y": 292,
+      "width": 420,
+      "height": 30,
+      "text": "Welcome back",
+      "fontSize": 18,
+      "fill": "#444444",
+      "depth": 3
+    },
+    {
+      "id": "btn",
+      "type": "RECTANGLE",
+      "name": "Button",
+      "x": 288,
+      "y": 420,
+      "width": 200,
+      "height": 56,
+      "fill": "#111111",
+      "depth": 4
+    },
+    {
+      "id": "bt",
+      "type": "TEXT",
+      "name": "ButtonText",
+      "x": 339,
+      "y": 433,
+      "width": 100,
+      "height": 30,
+      "text": "Continue",
+      "fontSize": 22,
+      "fill": "#FFFFFF",
+      "depth": 5
+    }
+  ]
+}

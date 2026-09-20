@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Figma to Blender — Skip the Rebuild. Go Figma to Blender.</title>
+  <meta name="description" content="Bring your Figma interface into Blender as a structured, editable 3D scene — without rebuilding it by hand.">
+  
+  <!-- Google Fonts: Space Grotesk, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css?v=4.3">
+  <script src="lenis.min.js"></script>
+</head>
+<body>
+
+  <!-- Floating HUD Chapter Navbar -->
+  <header class="site-header-floating">
+    <div class="hud-pill-wrapper" id="hud-nav-pill">
+      <!-- 4 Corner HUD Crosshair Brackets -->
+      <span class="hud-corner hud-corner-tl" aria-hidden="true"></span>
+      <span class="hud-corner hud-corner-tr" aria-hidden="true"></span>
+      <span class="hud-corner hud-corner-bl" aria-hidden="true"></span>
+      <span class="hud-corner hud-corner-br" aria-hidden="true"></span>
+
+      <!-- Interactive Chapter Bar Trigger -->
+      <button class="hud-pill-button" id="hud-pill-trigger" type="button" aria-expanded="false" aria-label="Toggle navigation menu">
+        <div class="hud-pill-label">
+          <span class="hud-pill-num" id="hud-current-num">01</span>
+          <span class="hud-pill-divider">|</span>
+          <span class="hud-pill-title" id="hud-current-title">Introduction</span>
+        </div>
+        <div class="hud-hamburger-icon" id="hud-hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+
+      <!-- Dropdown Menu -->
+      <div class="hud-dropdown-menu" id="hud-dropdown-menu" role="menu">
+        <a href="#hero" class="hud-menu-item active" data-num="01" data-title="Introduction" role="menuitem">
+          <span class="item-num">01</span>
+          <span class="item-divider">|</span>
+          <span class="item-text">Introduction</span>
+        </a>
+        <a href="#learn-more" class="hud-menu-item" data-num="02" data-title="Learn More" role="menuitem">
+          <span class="item-num">02</span>
+          <span class="item-divider">|</span>
+          <span class="item-text">Learn More</span>
+        </a>
+        <a href="#faq" class="hud-menu-item" data-num="03" data-title="FAQ" role="menuitem">
+          <span class="item-num">03</span>
+          <span class="item-divider">|</span>
+          <span class="item-text">FAQ</span>
+        </a>
+        <button type="button" class="hud-menu-item hud-action-download" id="hud-menu-download" role="menuitem">
+          <span class="item-num">04</span>
+          <span class="item-divider">|</span>
+          <span class="item-text">Download Addon</span>
+          <span class="item-badge">v1.0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-layout">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="section-container hero-grid">
+        
+        <!-- Hero Left: Typography & Actions -->
+        <div class="hero-left">
+          <div class="reveal-mask">
+            <div class="overline-tag reveal-item delay-1">FIGMENT BRIDGE</div>
+          </div>
+          
+          <h1 class="hero-headline">
+            <span class="reveal-mask"><span class="reveal-item delay-2">SKIP THE REBUILD.</span></span>
+            <span class="reveal-mask"><span class="reveal-item delay-2">GO FIGMA TO</span></span>
+            <span class="reveal-mask"><span class="reveal-item delay-3">BLENDER.</span></span>
+          </h1>
+
+          <div class="reveal-mask">
+            <p class="hero-subtext reveal-item delay-3">
+              Bring your Figma interface into Blender as a structured, editable 3D scene — without rebuilding it by hand.
+            </p>
+          </div>
+
+          <div class="reveal-mask">
+            <div class="hero-btn-row reveal-item delay-4">
+              <button class="btn btn-solid-white" id="hero-btn-download">DOWNLOAD NOW</button>
+              <a href="#learn-more" class="btn btn-outline-dark" id="hero-btn-explore">EXPLORE FEATURES</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Right: Interactive Live 3D Demo Card -->
+        <div class="hero-right">
+          <div class="reveal-mask demo-reveal-mask">
+            <div class="hero-demo-card reveal-item delay-2" id="demo">
+            
+            <!-- Top-Left Demo Controls Inside the Card -->
+            <div class="demo-card-controls">
+              
+              <!-- Primary CTA -->
+              <button class="btn-push-purple" id="btn-push-action" type="button">
+                <span id="push-action-label">push to blender</span>
+              </button>
+
+              <!-- 3D Transform Controls (Depth, Pitch, Yaw) -->
+              <div class="demo-depth-control" id="demo-depth-control">
+                <!-- Layer Depth -->
+                <div class="control-pill-group">
+                  <div class="depth-header-row">
+                    <span class="depth-title">DEPTH</span>
+                    <span class="depth-val" id="depth-val-display">54px</span>
+                  </div>
+                  <input type="range" min="0" max="100" value="54" class="range-slider-mini" id="layer-depth-slider" aria-label="Layer Depth">
+                </div>
+              </div>
+
+              <!-- Quick Secondary Actions -->
+              <div class="demo-sub-actions" id="demo-sub-actions">
+                <button class="btn-mini-sub" id="btn-inspect-toggle" type="button" title="Toggle component inspection wireframes">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span>Inspect</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- 3D Interactive Stage Container -->
+            <div class="stage-container" id="stage-viewport">
+              
+              <!-- The Dashboard Scene Assembly -->
+              <div class="scene-3d state-figma" id="interactive-scene">
+
+                <!-- Figma Selection Frame Overlay (Visible in 2D mode) -->
+                <div class="figma-selection-box" id="figma-selection-box">
+                  <div class="figma-frame-tag"># Analytics Dashboard</div>
+                  <div class="figma-handle handle-tl"></div>
+                  <div class="figma-handle handle-tr"></div>
+                  <div class="figma-handle handle-bl"></div>
+                  <div class="figma-handle handle-br"></div>
+                  <div class="cc-light-sweep-beam" id="cc-light-sweep-beam"></div>
+                </div>
+
+                <!-- Layer 0: Base Frame Canvas -->
+                <div class="ui-layer dl-base" data-inspect-title="FRAME CONTAINER" data-inspect-detail="880 × 520 • bpy.data.objects['FIGMA_ROOT']">
+                  <div class="chassis-glow-edge"></div>
+                </div>
+
+                <!-- Layer 1: Navigation Sidebar -->
+                <div class="ui-layer dl-sidebar" data-inspect-title="SIDEBAR GROUP" data-inspect-detail="FIGMA_NAV_EMPTY • AutoLayout Vertical">
+                  <div class="sidebar-logo">
+                    <div class="sidebar-brand-mark"></div>
+                  </div>
+                  <div class="sidebar-nav-items">
+                    <div class="sidebar-item active">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    </div>
+                    <div class="sidebar-item">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </div>
+                    <div class="sidebar-item">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                    </div>
+                    <div class="sidebar-item">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Layer 2: Header Bar Content -->
+                <div class="ui-layer dl-header" data-inspect-title="HEADER BAR" data-inspect-detail="FRAME • Search & Profile Component">
+                  <div class="dashboard-title-area">
+                    <span class="dash-subtitle">PORTFOLIO OVERVIEW</span>
+                    <h3 class="dash-heading">Executive Dashboard</h3>
+                  </div>
+                  <div class="dash-header-actions">
+                    <div class="dash-search-box">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                      <span>Search metrics...</span>
+                    </div>
+                    <div class="dash-avatar-pill" data-inspect-title="AVATAR ICON" data-inspect-detail="MASKED IMAGE • 32-bit Alpha Channel">
+                      <div class="dash-avatar-img">JD</div>
+                      <span class="dash-avatar-name">Jane Doe</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Layer 3: KPI Metric Cards -->
+                <div class="ui-layer dl-kpi-grid">
+                  
+                  <!-- KPI 1: Revenue (Interactive Editable Text) -->
+                  <div class="kpi-card-3d" id="kpi-revenue-card" data-inspect-title="KPI CARD 1" data-inspect-detail="CARD MESH • Radius: 16px • Subdiv: 2">
+                    <div class="kpi-header-row">
+                      <span class="kpi-label">TOTAL REVENUE</span>
+                      <span class="trend-badge positive">+18.4%</span>
+                    </div>
+                    <div class="editable-text-wrapper" title="Click to edit 3D text" data-inspect-title="EDITABLE 3D FONT" data-inspect-detail="Blender FONT Object • Extrusion: 0.02m">
+                      <span class="editable-text-val" id="editable-revenue-val" contenteditable="true" spellcheck="false">$84,240</span>
+                      <span class="editable-font-indicator" id="editable-font-tag">EDITABLE 3D FONT</span>
+                    </div>
+                    <div class="kpi-footnote">vs. $71,180 last month</div>
+                  </div>
+
+                  <!-- KPI 2: Conversion Rate -->
+                  <div class="kpi-card-3d" data-inspect-title="KPI CARD 2" data-inspect-detail="CARD MESH • Material: Shader Look">
+                    <div class="kpi-header-row">
+                      <span class="kpi-label">CONVERSION</span>
+                      <span class="trend-badge positive">+2.1%</span>
+                    </div>
+                    <div class="kpi-static-val">3.84%</div>
+                    <div class="kpi-footnote">1,420 total goals</div>
+                  </div>
+
+                  <!-- KPI 3: Active Sessions -->
+                  <div class="kpi-card-3d" data-inspect-title="KPI CARD 3" data-inspect-detail="CARD MESH • Nested Groups">
+                    <div class="kpi-header-row">
+                      <span class="kpi-label">ACTIVE SESSIONS</span>
+                      <span class="trend-badge neutral">12.4k</span>
+                    </div>
+                    <div class="kpi-static-val">18,920</div>
+                    <div class="mini-spark-bars">
+                      <span style="height: 35%;"></span>
+                      <span style="height: 60%;"></span>
+                      <span style="height: 45%;"></span>
+                      <span style="height: 85%;"></span>
+                      <span style="height: 70%;"></span>
+                      <span style="height: 95%;"></span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Layer 4: Performance Analytics Chart Area -->
+                <div class="ui-layer dl-chart-card" data-inspect-title="CHART VECTOR" data-inspect-detail="VECTOR CURVE • Bézier 3D Path Object">
+                  <div class="chart-header-row">
+                    <div class="chart-title-group">
+                      <span class="chart-heading">Revenue Dynamics</span>
+                      <span class="chart-badge-live">LIVE FEED</span>
+                    </div>
+                    <div class="chart-tabs">
+                      <span class="chart-tab active">1M</span>
+                      <span class="chart-tab">6M</span>
+                      <span class="chart-tab">1Y</span>
+                    </div>
+                  </div>
+
+                  <!-- SVG Vector Chart Path -->
+                  <svg class="chart-svg-elem" viewBox="0 0 480 90">
+                    <defs>
+                      <linearGradient id="chartStrokeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="60%" stop-color="#a1a1aa"/>
+                        <stop offset="100%" stop-color="#71717a"/>
+                      </linearGradient>
+                      <linearGradient id="chartAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="rgba(255, 255, 255, 0.18)"/>
+                        <stop offset="100%" stop-color="rgba(255, 255, 255, 0.0)"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M 0,75 C 60,70 110,25 180,45 S 280,10 360,28 S 430,8 480,12 L 480,90 L 0,90 Z" fill="url(#chartAreaGrad)"/>
+                    <path d="M 0,75 C 60,70 110,25 180,45 S 280,10 360,28 S 430,8 480,12" fill="none" stroke="url(#chartStrokeGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                  </svg>
+
+                  <div class="chart-axis-labels">
+                    <span>JAN</span>
+                    <span>FEB</span>
+                    <span>MAR</span>
+                    <span>APR</span>
+                    <span>MAY</span>
+                    <span>JUN</span>
+                  </div>
+                </div>
+
+                <!-- Layer 5: Activity Table -->
+                <div class="ui-layer dl-table-card" data-inspect-title="ACTIVITY CONTAINER" data-inspect-detail="CONTAINER • Alpha Mask Composited Card">
+                  <div class="table-header-row">
+                    <span class="table-heading">Recent Payouts</span>
+                    <div class="table-actions">
+                      <button class="btn-chip-action" type="button">+ New Transfer</button>
+                    </div>
+                  </div>
+
+                  <div class="table-rows">
+                    <div class="table-row-item">
+                      <div class="row-icon-cell" style="background: rgba(255, 255, 255, 0.08); color: #ffffff;">⚡</div>
+                      <div class="row-info-cell">
+                        <span class="row-title">Stripe Settlement</span>
+                        <span class="row-meta">Today, 09:24 AM</span>
+                      </div>
+                      <div class="row-amount-cell">+$14,250.00</div>
+                      <div class="row-badge-cell"><span class="badge-status-ok">Completed</span></div>
+                    </div>
+
+                    <div class="table-row-item">
+                      <div class="row-icon-cell" style="background: rgba(255, 255, 255, 0.08); color: #a1a1aa;">🔄</div>
+                      <div class="row-info-cell">
+                        <span class="row-title">AWS Subscription</span>
+                        <span class="row-meta">Yesterday, 04:12 PM</span>
+                      </div>
+                      <div class="row-amount-cell">-$1,840.00</div>
+                      <div class="row-badge-cell"><span class="badge-status-pending">Processing</span></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Floating Inspection Metadata Tooltip -->
+              <div class="inspect-tooltip" id="inspect-tooltip">
+                <div class="tooltip-header" id="tooltip-title">LAYER INSPECTION</div>
+                <div class="tooltip-detail" id="tooltip-detail">Hover elements to view 3D reconstruction properties</div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: LEARN MORE (Accordion + Blank Video Placeholder) -->
+    <section class="learn-more-section" id="learn-more">
+      <div class="section-container">
+        
+        <div class="learn-grid">
+          
+          <!-- Left Column: Minimal Accordion -->
+          <div class="learn-left">
+            <div class="reveal-mask">
+              <div class="overline-tag reveal-item">LEARN MORE</div>
+            </div>
+
+            <div class="minimal-accordion" id="minimal-accordion">
+              
+              <!-- Item 1: LIVE SYNC -->
+              <div class="reveal-mask">
+                <div class="reveal-item">
+                  <div class="acc-row active" data-index="0">
+                    <button class="acc-trigger" type="button">
+                      <span class="acc-title">LIVE SYNC</span>
+                      <span class="acc-symbol">−</span>
+                    </button>
+                    <div class="acc-collapse">
+                      <div class="acc-text">
+                        import in a single click<br>
+                        ( or manually if you prefer)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2: EDIT THE TEXT IN BLENDER -->
+              <div class="reveal-mask">
+                <div class="reveal-item delay-1">
+                  <div class="acc-row" data-index="1">
+                    <button class="acc-trigger" type="button">
+                      <span class="acc-title">EDIT THE TEXT IN BLENDER</span>
+                      <span class="acc-symbol">+</span>
+                    </button>
+                    <div class="acc-collapse">
+                      <div class="acc-text">
+                        edit the text without limits inside blender
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3: KEEP FIGMA'S VISUAL FIDELITY -->
+              <div class="reveal-mask">
+                <div class="reveal-item delay-2">
+                  <div class="acc-row" data-index="2">
+                    <button class="acc-trigger" type="button">
+                      <span class="acc-title">KEEP FIGMA’S VISUAL FIDELITY</span>
+                      <span class="acc-symbol">+</span>
+                    </button>
+                    <div class="acc-collapse">
+                      <div class="acc-text">
+                        Preserve fills, strokes, corner radii, and material colors so the Blender version stays visually faithful to the original design.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 4: GIVE 2D ELEMENTS REAL THICKNESS -->
+              <div class="reveal-mask">
+                <div class="reveal-item delay-3">
+                  <div class="acc-row" data-index="3">
+                    <button class="acc-trigger" type="button">
+                      <span class="acc-title">GIVE 2D ELEMENTS REAL THICKNESS</span>
+                      <span class="acc-symbol">+</span>
+                    </button>
+                    <div class="acc-collapse">
+                      <div class="acc-text">
+                        Turn flat UI surfaces into 3D geometry with adjustable depth and bevels
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 5: KEEP THE LAYER HIERARCHY INTACT -->
+              <div class="reveal-mask">
+                <div class="reveal-item delay-4">
+                  <div class="acc-row" data-index="4">
+                    <button class="acc-trigger" type="button">
+                      <span class="acc-title">KEEP THE LAYER HIERARCHY INTACT</span>
+                      <span class="acc-symbol">+</span>
+                    </button>
+                    <div class="acc-collapse">
+                      <div class="acc-text">
+                        Nested frames and groups remain organized in Blender, preserving the original hierarchy so the scene stays manageable
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: Video Showcase Frame (Aligned to Accordion, Fixed Size) -->
+          <div class="learn-right">
+            <div class="reveal-mask">
+              <div class="reveal-item delay-2">
+                <div class="video-placeholder-frame" id="accordion-video-frame">
+                  <div class="video-placeholder-inner" id="video-container">
+                    <video id="accordion-video" loop muted playsinline preload="auto"></video>
+                    <div class="video-light-sweep-beam" id="video-light-sweep-beam"></div>
+                    <div class="placeholder-notice" id="video-placeholder-notice" style="display: none;">
+                      <span class="placeholder-icon">▶</span>
+                      <span class="placeholder-caption">LOOPING VIDEO AREA</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: FAQ (FREQUENTLY ASKED QUESTIONS) -->
+    <section class="faq-section" id="faq">
+      <div class="section-container">
+        
+        <div class="faq-header">
+          <div class="reveal-mask">
+            <div class="overline-tag reveal-item">FREQUENTLY ASKED QUESTIONS</div>
+          </div>
+          <div class="reveal-mask">
+            <h2 class="faq-headline reveal-item">EVERYTHING YOU NEED TO KNOW</h2>
+          </div>
+        </div>
+
+        <div class="faq-grid">
+          
+          <!-- Left Column: Questions 1 to 9 -->
+          <div class="faq-col">
+
+            <!-- FAQ Item 1 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">1. Do I need to export or download files manually?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      No. With Blender open in the background, clicking <strong>Transfer to Blender</strong> sends your selection instantly over a local connection.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">2. Does it keep text editable and vectors sharp?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Yes. Icons and shapes import as native vector curves, and text imports as native, editable Blender 3D typography.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">3. How does layer depth work?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      It automatically detects your layout hierarchy and stacks backgrounds, cards, buttons, and text along the Z-axis with realistic depth.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">4. Can I add physical 3D thickness to layers?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Yes. The Blender sidebar includes an <strong>Auto-Solidify</strong> toggle with independent thickness controls for Cards, Text, and SVG icons.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">5. What versions of Blender are supported?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Blender 4.0 and newer (fully tested on Blender 4.2 LTS and 5.0).
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">6. Are image textures blurry?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      No. You can choose texture scales from 1x to 4x in the plugin settings, and textures load with smart filtering enabled.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 7 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">7. Why does the plugin say "Blender Offline"?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Blender must be open with the Figment Bridge add-on enabled. Once active, the status turns green (<strong>Connected</strong>) automatically.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 8 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">8. Is my design data sent to any cloud server?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      No. All transfers happen 100% locally on your computer via <code>localhost</code>. No data ever leaves your machine.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 9 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">9. Can I still import if I don't use the live bridge?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Yes. The plugin includes a <strong>Save JSON Files</strong> fallback button so you can import scenes from disk anytime in Blender.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Questions 10 to 17 -->
+          <div class="faq-col">
+
+            <!-- FAQ Item 10 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">10. How do I install the Blender add-on?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      In Blender, go to <strong>Edit</strong> &gt; <strong>Preferences</strong> &gt; <strong>Add-ons</strong> &gt; <strong>Install from Disk...</strong>, select <code>figment_bridge_blender.zip</code>, and enable the checkbox.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 11 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">11. Can I adjust the spacing between 3D layers?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Yes. Adjust the <strong>Layer Distance</strong> slider in the Blender sidebar panel anytime to expand or collapse the 3D depth of your scene.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 12 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">12. Are rounded corners preserved?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Yes. Both uniform and per-corner radii (top-left, top-right, etc.) are converted into smooth Blender curved mesh borders.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 13 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">13. How are auto-layout frames and nested components handled?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Nested frames, components, and auto-layout containers are automatically unrolled and stacked in their correct spatial hierarchy.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 14 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">14. Are strokes and borders supported?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Yes. Borders import as dedicated stroke objects placed cleanly in front of plates to eliminate Z-fighting, with dashed and gradient stroke support.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 15 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">15. Can I toggle shadows for text and icons?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Yes. Use the <strong>Cast Text & Icon Shadows</strong> toggle in the sidebar to let typography cast realistic soft shadows onto cards beneath.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 16 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">16. Can I select only text or only cards in Blender?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Yes. The <strong>Quick Filter Selection</strong> buttons in the panel let you select All, Cards only, or Text only with one click for batch edits.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Item 17 -->
+            <div class="reveal-mask">
+              <div class="reveal-item">
+                <div class="faq-item">
+                  <button class="faq-trigger" type="button">
+                    <span class="faq-title">17. Can I re-import an updated layout without losing scene setup?</span>
+                    <span class="faq-symbol">+</span>
+                  </button>
+                  <div class="faq-collapse">
+                    <div class="faq-answer">
+                      Yes. Re-transferring replaces the collection geometry cleanly while preserving your custom camera angles, lighting, and world environment.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Large Sign-off Banner: happy creating :) -->
+        <div class="happy-creating-banner reveal-mask">
+          <span class="reveal-item">happy creating :)</span>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Quick Download / Addon Modal Overlay -->
+  <div class="modal-overlay" id="download-modal">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
+      
+      <div class="download-option-row">
+        <div class="download-opt-info">
+          <div class="download-opt-header">
+            <span class="download-opt-title">Blender Add-on</span>
+            <span class="download-opt-badge">v0.3.0 &bull; ZIP</span>
+          </div>
+          <div class="download-opt-desc">Ready-to-install add-on for Blender 4.x / 5.0+</div>
+          <div class="download-opt-sublinks">
+            <a href="downloads/blender/figma_ui_importer_v030.py" download="figma_ui_importer_v030.py" class="download-sublink">Direct .py Script</a>
+          </div>
+        </div>
+        <a href="downloads/blender/figment_bridge_blender.zip" download="figment_bridge_blender.zip" class="btn btn-solid-white btn-download">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download (.zip)
+        </a>
+      </div>
+
+      <div class="download-option-row">
+        <div class="download-opt-info">
+          <div class="download-opt-header">
+            <span class="download-opt-title">Figma Bridge Plugin</span>
+            <span class="download-opt-badge">v1.0 &bull; ZIP</span>
+          </div>
+          <div class="download-opt-desc">Complete plugin package for Figma Desktop & Browser</div>
+          <div class="download-opt-sublinks">
+            <a href="downloads/figma/manifest.json" download="manifest.json" class="download-sublink">manifest.json</a>
+            <span class="download-sublink-sep">&bull;</span>
+            <a href="downloads/figma/code.js" download="code.js" class="download-sublink">code.js</a>
+            <span class="download-sublink-sep">&bull;</span>
+            <a href="downloads/figma/ui.html" download="ui.html" class="download-sublink">ui.html</a>
+          </div>
+        </div>
+        <a href="downloads/figma/figment_bridge_figma.zip" download="figment_bridge_figma.zip" class="btn btn-solid-white btn-download">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download (.zip)
+        </a>
+      </div>
+
+      <div class="download-option-row">
+        <div class="download-opt-info">
+          <div class="download-opt-header">
+            <span class="download-opt-title">Quickstart Setup Guide</span>
+            <span class="download-opt-badge">DOCS &bull; MD</span>
+          </div>
+          <div class="download-opt-desc">Step-by-step setup instructions to link Figma with Blender</div>
+        </div>
+        <a href="downloads/QUICKSTART.md" download="QUICKSTART.md" class="btn btn-outline-dark btn-download">
+          View / Download
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=4.4"></script>
+</body>
+</html>

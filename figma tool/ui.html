@@ -1,0 +1,640 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      :root {
+        --bg-main: #121214;
+        --bg-card: #1a1a1e;
+        --border-color: #27272a;
+        --border-focus: #3b82f6;
+        --text-primary: #f4f4f5;
+        --text-secondary: #a1a1aa;
+        --text-muted: #71717a;
+        --accent: #3b82f6;
+        --accent-hover: #2563eb;
+        --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+        --success: #22c55e;
+        --error: #ef4444;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 0;
+        font: 12px/1.45 Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--bg-main);
+        color: var(--text-primary);
+        user-select: none;
+      }
+      .wrap {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .scale-selector {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .scale-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .scale-tabs {
+        display: flex;
+        background: #18181c;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 2px;
+        gap: 2px;
+      }
+      .scale-btn {
+        background: transparent;
+        border: none;
+        border-radius: 4px;
+        color: var(--text-secondary);
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 8px;
+        cursor: pointer;
+        line-height: 1.2;
+        transition: all 0.15s ease;
+      }
+      .scale-btn:hover {
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .scale-btn.active {
+        background: #27272a;
+        color: #ffffff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 8px;
+        border-radius: 9999px;
+        background: #27272a;
+        color: var(--text-secondary);
+        border: 1px solid #3f3f46;
+        transition: all 0.25s ease;
+      }
+      .badge .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #71717a;
+        transition: all 0.25s ease;
+      }
+      .badge.online {
+        background: rgba(34, 197, 94, 0.12);
+        color: #4ade80;
+        border-color: rgba(34, 197, 94, 0.3);
+      }
+      .badge.online .dot {
+        background: var(--success);
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+      }
+
+      /* Selection Card */
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .card-empty {
+        border: 1px dashed #3f3f46;
+        background: rgba(255, 255, 255, 0.015);
+        color: var(--text-muted);
+        text-align: center;
+        padding: 12px;
+      }
+      .selection-title {
+        font-weight: 600;
+        font-size: 12px;
+        color: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .selection-meta {
+        display: flex;
+        gap: 8px;
+        font-size: 11px;
+        color: var(--text-secondary);
+      }
+      .meta-pill {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      /* Form Fields */
+      .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      label {
+        color: #d4d4d8;
+        font-size: 11px;
+        font-weight: 500;
+      }
+      input[type="text"] {
+        width: 100%;
+        border: 1px solid var(--border-color);
+        background: #1e1e24;
+        color: #f4f4f5;
+        padding: 7px 10px;
+        border-radius: 6px;
+        outline: none;
+        font-size: 12px;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+      input[type="text"]:focus {
+        border-color: var(--border-focus);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      }
+
+      /* Options row */
+      .options-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--text-secondary);
+      }
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .checkbox-label input {
+        accent-color: var(--accent);
+        cursor: pointer;
+        margin: 0;
+      }
+
+      /* Segmented Tabs for Text Options */
+      .segment-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .segment-tabs {
+        display: flex;
+        background: #18181c;
+        border: 1px solid var(--border-color);
+        border-radius: 7px;
+        padding: 3px;
+        gap: 3px;
+      }
+      .tab-btn {
+        flex: 1;
+        background: transparent;
+        border: none;
+        border-radius: 5px;
+        color: var(--text-secondary);
+        font-size: 11px;
+        font-weight: 500;
+        padding: 6px 4px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+      .tab-btn svg {
+        flex-shrink: 0;
+        opacity: 0.75;
+      }
+      .tab-btn:hover svg {
+        opacity: 1;
+      }
+      .tab-btn.active svg {
+        opacity: 1;
+        stroke: #ffffff;
+      }
+      .tab-btn:hover {
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .tab-btn.active {
+        background: #27272a;
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+      .warning-box {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 5px;
+        font-size: 11px;
+        line-height: 1.35;
+        background: rgba(234, 179, 8, 0.1);
+        color: #facc15;
+        border: 1px solid rgba(234, 179, 8, 0.25);
+      }
+
+      /* Buttons */
+      .btn-push {
+        width: 100%;
+        padding: 10px 14px;
+        border: 0;
+        border-radius: 7px;
+        background: var(--accent-gradient);
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+        transition: opacity 0.15s, transform 0.05s, box-shadow 0.15s;
+      }
+      .btn-push:hover:not(:disabled) {
+        opacity: 0.95;
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.45);
+      }
+      .btn-push:active:not(:disabled) {
+        transform: scale(0.98);
+      }
+      .btn-push:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .btn-secondary {
+        width: 100%;
+        padding: 7px 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background: #1c1c20;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .btn-secondary:hover:not(:disabled) {
+        background: #27272a;
+        color: var(--text-primary);
+        border-color: #3f3f46;
+      }
+
+      /* Status Feedback */
+      .status-box {
+        padding: 8px 10px;
+        border: 1px solid var(--border-color);
+        background: #18181c;
+        border-radius: 6px;
+        color: var(--text-secondary);
+        font-size: 11px;
+        min-height: 38px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        line-height: 1.4;
+        display: flex;
+        align-items: center;
+      }
+      .status-box.success {
+        color: #4ade80;
+        border-color: rgba(34, 197, 94, 0.35);
+        background: rgba(34, 197, 94, 0.08);
+      }
+      .status-box.error {
+        color: #f87171;
+        border-color: rgba(239, 68, 68, 0.35);
+        background: rgba(239, 68, 68, 0.08);
+      }
+
+      .links { display: none; gap: 6px; }
+      a.download-link {
+        flex: 1;
+        text-decoration: none;
+        text-align: center;
+        padding: 6px 8px;
+        border-radius: 5px;
+        background: #1e1e24;
+        color: #38bdf8;
+        border: 1px solid #38bdf8;
+        font-size: 11px;
+      }
+      a.download-link:hover {
+        background: rgba(56, 189, 248, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- Header -->
+      <div class="header-row">
+        <div class="scale-selector">
+          <span class="scale-label">Scale</span>
+          <div class="scale-tabs" id="scaleTabs">
+            <button type="button" class="scale-btn" data-scale="1">1x</button>
+            <button type="button" class="scale-btn active" data-scale="2">2x</button>
+            <button type="button" class="scale-btn" data-scale="3">3x</button>
+            <button type="button" class="scale-btn" data-scale="4">4x</button>
+          </div>
+        </div>
+        <div id="bridgeBadge" class="badge">
+          <span class="dot"></span>
+          <span id="badgeText">Checking...</span>
+        </div>
+      </div>
+
+      <!-- Selection Card -->
+      <div id="selectionCard" class="card card-empty">
+        Checking selection...
+      </div>
+
+      <!-- Inputs -->
+      <div class="field-group">
+        <label for="setName">Collection / Set Name</label>
+        <input id="setName" type="text" value="set1" spellcheck="false" placeholder="e.g. Dashboard" />
+      </div>
+
+      <!-- Text Options -->
+      <div class="segment-group">
+        <label>Import Text As</label>
+        <div class="segment-tabs" id="textTabs">
+          <button type="button" class="tab-btn active" data-mode="TEXT">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 7 4 4 20 4 20 7"></polyline>
+              <line x1="9" y1="20" x2="15" y2="20"></line>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+            </svg>
+            <span>Text</span>
+          </button>
+          <button type="button" class="tab-btn" data-mode="SVG">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="6" height="6" rx="1"></rect>
+              <rect x="16" y="16" width="6" height="6" rx="1"></rect>
+              <path d="M8 5h6a3 3 0 0 1 3 3v8"></path>
+            </svg>
+            <span>Vector SVG</span>
+          </button>
+          <button type="button" class="tab-btn" data-mode="PNG">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span>PNG Image</span>
+          </button>
+        </div>
+        <div id="textWarning" class="warning-box">
+          Non-editable in Blender
+        </div>
+      </div>
+
+      <!-- Options -->
+      <div class="options-row">
+        <label class="checkbox-label">
+          <input type="checkbox" id="autoFocusCheck" checked />
+          Focus Blender on push
+        </label>
+      </div>
+
+      <!-- Actions -->
+      <button id="btnPush" class="btn-push">Push Selection to Blender</button>
+      <button id="btnExport" class="btn-secondary">Save JSON Files (Manual Fallback)</button>
+
+      <div class="links" id="links">
+        <a id="sceneLink" class="download-link" download="scene.json">scene.json</a>
+        <a id="manifestLink" class="download-link" download="manifest.json">manifest.json</a>
+      </div>
+
+      <!-- Status -->
+      <div class="status-box" id="status">Select a frame in Figma to get started.</div>
+    </div>
+
+    <script>
+      const btnPush = document.getElementById('btnPush');
+      const btnExport = document.getElementById('btnExport');
+      const statusEl = document.getElementById('status');
+      const setNameEl = document.getElementById('setName');
+      const badge = document.getElementById('bridgeBadge');
+      const badgeText = document.getElementById('badgeText');
+      const links = document.getElementById('links');
+      const sceneLink = document.getElementById('sceneLink');
+      const manifestLink = document.getElementById('manifestLink');
+      const selectionCard = document.getElementById('selectionCard');
+      const autoFocusCheck = document.getElementById('autoFocusCheck');
+
+      const BRIDGE_URL = "http://localhost:8765";
+
+      function setStatus(text, type = '') {
+        statusEl.textContent = text;
+        statusEl.className = 'status-box ' + type;
+      }
+
+      function setDownload(a, text, name) {
+        const blob = new Blob([text], { type: 'application/json;charset=utf-8' });
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+      }
+
+      // Heartbeat check to Blender local bridge server
+      let isOnline = false;
+      async function checkBlenderHealth() {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 1200);
+          const res = await fetch(`${BRIDGE_URL}/health`, {
+            method: 'GET',
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+          if (res.ok) {
+            badge.className = 'badge online';
+            badgeText.textContent = 'Blender Connected';
+            isOnline = true;
+            return;
+          }
+        } catch (e) {}
+        badge.className = 'badge';
+        badgeText.textContent = 'Blender Offline';
+        isOnline = false;
+      }
+
+      setInterval(checkBlenderHealth, 2000);
+      checkBlenderHealth();
+
+      let hasActiveSelection = false;
+
+      function triggerExport(action) {
+        const setName = setNameEl.value.trim();
+        if (!setName) {
+          setStatus("Please enter a collection/set name.", "error");
+          return;
+        }
+
+        setStatus(action === "push" ? "Extracting & pushing to Blender..." : "Extracting scene data...", "");
+        btnPush.disabled = true;
+        btnExport.disabled = true;
+
+        parent.postMessage({
+          pluginMessage: {
+            type: "export",
+            setName,
+            action,
+            textMode: selectedTextMode,
+            textureScale: selectedTextureScale,
+            autoFocus: autoFocusCheck.checked
+          }
+        }, "*");
+      }
+
+      let selectedTextureScale = 2;
+      const scaleTabs = document.getElementById('scaleTabs');
+      if (scaleTabs) {
+        scaleTabs.querySelectorAll('.scale-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            scaleTabs.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedTextureScale = parseInt(btn.getAttribute('data-scale'), 10) || 2;
+          });
+        });
+      }
+
+      let selectedTextMode = "TEXT";
+      const textTabs = document.getElementById('textTabs');
+      const textWarning = document.getElementById('textWarning');
+
+      textTabs.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          textTabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedTextMode = btn.getAttribute('data-mode');
+
+          if (selectedTextMode === 'SVG') {
+            textWarning.style.display = 'flex';
+            textWarning.textContent = 'Non-editable in Blender (curve vector outlines)';
+          } else if (selectedTextMode === 'PNG') {
+            textWarning.style.display = 'flex';
+            textWarning.textContent = 'Non-editable in Blender (pixel-perfect flat image)';
+          } else {
+            textWarning.style.display = 'none';
+          }
+        });
+      });
+
+      btnPush.onclick = () => triggerExport("push");
+      btnExport.onclick = () => triggerExport("download");
+
+      window.onmessage = async (event) => {
+        const msg = event.data.pluginMessage;
+        if (!msg) return;
+
+        if (msg.type === "selection-changed") {
+          hasActiveSelection = msg.hasSelection;
+          if (msg.hasSelection) {
+            selectionCard.className = "card";
+            selectionCard.innerHTML = `
+              <div class="selection-title">${escapeHtml(msg.name)}</div>
+              <div class="selection-meta">
+                <span class="meta-pill">${msg.width} × ${msg.height} px</span>
+                <span class="meta-pill">${msg.count} elements</span>
+              </div>
+            `;
+            if (setNameEl.value === "set1" || !setNameEl.value) {
+              const clean = msg.name.replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 24);
+              if (clean) setNameEl.value = clean;
+            }
+            if (statusEl.textContent.includes("Select a frame")) {
+              setStatus("Ready to push.", "");
+            }
+          } else {
+            selectionCard.className = "card card-empty";
+            selectionCard.textContent = "No frame selected. Select a frame in Figma.";
+          }
+          return;
+        }
+
+        if (msg.type === "error") {
+          btnPush.disabled = false;
+          btnExport.disabled = false;
+          setStatus("Error: " + msg.message, "error");
+          return;
+        }
+
+        if (msg.type === "export-ready") {
+          if (msg.action === "download") {
+            setDownload(sceneLink, msg.sceneJson, "scene.json");
+            setDownload(manifestLink, msg.manifestJson, "manifest.json");
+            links.style.display = "flex";
+            btnPush.disabled = false;
+            btnExport.disabled = false;
+            setStatus(`Exported ${msg.setName} successfully! Click links below to save.`, "success");
+            return;
+          }
+
+          if (msg.action === "push") {
+            try {
+              setStatus("Sending to Blender (Port 8765)...", "");
+              const res = await fetch(`${BRIDGE_URL}/import`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: msg.sceneJson
+              });
+
+              if (!res.ok) {
+                const errText = await res.text();
+                throw new Error(errText || ("HTTP " + res.status));
+              }
+
+              const result = await res.json();
+              setStatus(`Pushed "${msg.setName}" to Blender successfully!`, "success");
+              links.style.display = "none";
+            } catch (err) {
+              console.error(err);
+              setStatus(`Failed to connect to Blender: ${err.message}\nMake sure Blender is running with Bridge active.`, "error");
+            } finally {
+              btnPush.disabled = false;
+              btnExport.disabled = false;
+            }
+          }
+        }
+      };
+
+      function escapeHtml(str) {
+        return str.replace(/[&<>'"]/g, tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag));
+      }
+    </script>
+  </body>
+</html>

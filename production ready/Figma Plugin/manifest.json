@@ -1,0 +1,18 @@
+{
+  "name": "Figment Bridge",
+  "id": "1683484865173185972",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": [
+    "figma"
+  ],
+  "documentAccess": "dynamic-page",
+  "permissions": [],
+  "networkAccess": {
+    "allowedDomains": ["none"],
+    "devAllowedDomains": [
+      "http://localhost:8765"
+    ]
+  }
+}
