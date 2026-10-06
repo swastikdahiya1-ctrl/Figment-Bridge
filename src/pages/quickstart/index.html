@@ -1,0 +1,67 @@
+---
+title: Quickstart: Figment Bridge
+description: Install the Blender add-on and Figma plugin, then push your first design.
+---
+<!doctype html>
+<html lang="en">
+<head>
+{{> head}}
+</head>
+<body>
+{{> header}}
+<main id="main">
+
+<section class="page-head"><div class="wrap narrow"><p class="eyebrow">Quickstart</p><h1>From install to first push in minutes</h1><p class="lede">Two installs, one click. Blender 4.0 to 5.x and the Figma desktop app.</p></div></section>
+<section class="section tight">
+  <div class="wrap narrow prose">
+    <div class="notice" id="download">
+      <strong>Get the files.</strong>
+      <!-- TODO(owner): replace this notice with the real download links once the free build is published (site.config.json -> freeDownloadUrl). -->
+      <span>The free download isn't published yet. After checkout, paid plans send download links by email.</span>
+    </div>
+
+    <h2>1. Install the Blender add-on</h2>
+    <ol>
+      <li>Download <code>figment_bridge_blender.zip</code> and don't unzip it.</li>
+      <li>In Blender: <b>Edit › Preferences › Add-ons</b>, open the dropdown at the top right, choose <b>Install from Disk…</b> and pick the zip.</li>
+      <li>Enable <b>Figment Bridge</b>. In the 3D Viewport press <kbd>N</kbd> and open the <b>Figment</b> tab. The header shows <i>Listening on :8765</i>.</li>
+    </ol>
+    <p class="muted">The bridge only listens on 127.0.0.1, your own computer. If the port is taken, pick another between 8765 and 8769 in the add-on preferences.</p>
+
+    <h2>2. Install the Figma plugin</h2>
+    <ol>
+      <li>Download <code>figment_bridge_figma.zip</code> and unzip it anywhere.</li>
+      <li>In the Figma desktop app: <b>Plugins › Development › Import plugin from manifest…</b> and choose <code>manifest.json</code>.</li>
+      <li>Run <b>Plugins › Development › Figment Bridge</b>. The status pill turns green when Blender is connected.</li>
+    </ol>
+
+    <h2>3. Push</h2>
+    <ol>
+      <li>Select one or more frames, or any layers.</li>
+      <li>Choose your options: <b>Update in place</b> keeps your Blender work, <b>Replace</b> rebuilds. Text can come in editable, as outlines or as an image.</li>
+      <li>Click <b>Push to Blender</b>, or press <kbd>Ctrl</kbd> + <kbd>Enter</kbd>.</li>
+    </ol>
+    <p><b>Live Sync (Premium):</b> select the frames and switch Live Sync on. Every edit is applied in place, so keyframes, nudges, modifiers and materials stay intact.</p>
+    <p><b>No connection?</b> Save a <code>.zip</code> or <code>scene.json</code> from the plugin, then use <b>Figment › Import</b> in Blender.</p>
+
+    <h2>4. Tips</h2>
+    <ul>
+      <li>Animate freely. Figma placement lives in the delta transform channels, so your location, rotation and scale keys survive every update.</li>
+      <li>Add <code>[z+2]</code> or <code>[z-1]</code> to a Figma layer name to lift or lower it and its contents.</li>
+      <li>Install your Figma fonts on the same machine for editable text with the right typeface. Missing fonts are listed in the plugin and in Blender.</li>
+    </ul>
+
+    <h2>Troubleshooting</h2>
+    <ul>
+      <li><b>"Blender offline":</b> check the add-on is enabled and the panel says <i>Listening</i>. Click the status pill to re-scan ports 8765 to 8769.</li>
+      <li><b>"Update add-on":</b> the add-on is older than the plugin. Install the newest zip.</li>
+      <li><b>Port in use:</b> change the port in the add-on preferences and pick the same one in the plugin's More options.</li>
+    </ul>
+    <p class="muted">Tested on Blender 5.0 for Windows. Other versions and systems haven't been tested yet.</p>
+  </div>
+</section>
+</main>
+{{> footer}}
+{{> scripts}}
+</body>
+</html>

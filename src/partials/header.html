@@ -1,0 +1,26 @@
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/" aria-label="{{config.name}} home">{{> logo}}<span>Figment Bridge</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/#features">Features</a>
+      <a href="/#live-sync">Live Sync</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-sm btn-ghost nav-cta" href="{{config.freeCta.href}}">{{config.freeCta.short}}</a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+      <span class="bars" aria-hidden="true"><i></i><i></i></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+    <nav aria-label="Mobile">
+      <a href="/#features">Features</a>
+      <a href="/#live-sync">Live Sync</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/quickstart/">Quickstart</a>
+      <a class="btn btn-primary" href="{{config.freeCta.href}}">{{config.freeCta.short}}</a>
+    </nav>
+  </div>
+</header>

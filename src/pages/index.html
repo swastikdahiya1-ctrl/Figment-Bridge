@@ -1,0 +1,404 @@
+---
+title: Figment Bridge: Figma to Blender, live
+description: Push Figma designs into Blender as layered, editable 3D. Edit in Figma and Blender follows, with your keyframes untouched. Free to try.
+---
+<!doctype html>
+<html lang="en">
+<head>
+{{> head}}
+<link rel="preload" href="/assets/video/live-sync.webp" as="image" fetchpriority="high">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{config.name}}",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Windows",
+  "softwareVersion": "{{config.version}}",
+  "description": "A live bridge from Figma to Blender. Rebuilds Figma designs as layered, editable 3D objects.",
+  "url": "{{config.url}}/",
+  "offers": [
+    { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "{{config.currency}}" },
+    { "@type": "Offer", "name": "Regular", "price": "{{config.tiers.regular.price}}", "priceCurrency": "{{config.currency}}" },
+    { "@type": "Offer", "name": "Premium", "price": "{{config.tiers.premium.price}}", "priceCurrency": "{{config.currency}}" }
+  ]
+}
+</script>
+</head>
+<body>
+{{> header}}
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow"><span class="sync-dot" aria-hidden="true"></span>Figma → Blender, live</p>
+    <h1>Design in Figma.<br><span class="grad">It's already in Blender.</span></h1>
+    <p class="lede">Push any screen into Blender as layered, editable 3D. Change the design the day before launch and your animation survives.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary btn-lg" href="{{config.freeCta.href}}">{{config.freeCta.label}}</a>
+      <a class="btn btn-ghost btn-lg" href="/pricing/">See pricing</a>
+    </div>
+    <p class="trust"><span class="trust-long">Built for Blender 4.0+ and the Figma desktop app. Tested on Blender 5.0 for Windows. Runs 100% locally.</span><span class="trust-short">Blender 4.0+ · Figma desktop · Runs 100% locally</span></p>
+
+    <figure class="stage" id="hero-stage">
+      <div class="stage-bar">
+        <span class="stage-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="stage-apps" aria-hidden="true">
+          <span class="app is-on" data-app="figma">Figma</span>
+          <span class="app-link"></span>
+          <span class="app" data-app="blender">Blender</span>
+        </div>
+        <button class="media-toggle" type="button" data-media-toggle="hero-video" aria-label="Pause video" aria-pressed="false">
+          <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9M11 3.5v9"/></svg>
+          <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2l8 4.8-8 4.8z"/></svg>
+        </button>
+      </div>
+      <div class="stage-media">
+        <video id="hero-video" autoplay muted loop playsinline preload="metadata" width="1280" height="720" poster="/assets/video/live-sync.webp" aria-label="Screen recording: a dashboard is selected in Figma, pushed with Figment Bridge, and appears in Blender as layered 3D objects.">
+          <source src="/assets/video/live-sync.webm" type="video/webm">
+          <source src="/assets/video/live-sync.mp4" type="video/mp4">
+        </video>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ PROBLEM ============ -->
+<section class="strip" aria-labelledby="strip-h">
+  <div class="wrap">
+    <h2 id="strip-h" class="sr-only">Rebuilding by hand versus one click</h2>
+    <div class="versus">
+      <div class="vs-card vs-old">
+        <p class="vs-label">By hand</p>
+        <p class="vs-big">Hours</p>
+        <p class="vs-sub">Every card, radius and gradient, rebuilt. Then again after the next design change.</p>
+      </div>
+      <div class="vs-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="vs-card vs-new">
+        <p class="vs-label">Figment Bridge</p>
+        <p class="vs-big">One click</p>
+        <p class="vs-sub">A 214-layer screen imports in about half a second.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section" id="how">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">How it works</p>
+      <h2>Three steps. No exports.</h2>
+    </header>
+    <ol class="steps">
+      <li class="step glow reveal">
+        <svg class="step-ill" viewBox="0 0 120 80" aria-hidden="true"><rect x="14" y="10" width="64" height="46" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="18" width="22" height="12" rx="3" fill="currentColor" opacity=".25"/><rect x="48" y="18" width="22" height="12" rx="3" fill="currentColor" opacity=".25"/><rect x="22" y="36" width="48" height="12" rx="3" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3 3"/><path d="M82 44l4 20 5-8 8-2z" fill="var(--accent)"/></svg>
+        <p class="step-n">01</p>
+        <h3>Select in Figma</h3>
+        <p>Pick frames or any layers. Nothing to export.</p>
+      </li>
+      <li class="step glow reveal">
+        <svg class="step-ill" viewBox="0 0 120 80" aria-hidden="true"><rect x="12" y="26" width="30" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="78" y="26" width="30" height="28" rx="6" fill="var(--accent)" opacity=".9"/><path d="M46 40h28" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/><path d="M68 34l7 6-7 6" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="step-n">02</p>
+        <h3>Push, or turn on Live Sync</h3>
+        <p>One click sends it over a local connection. Live Sync does it for you on every edit.</p>
+      </li>
+      <li class="step glow reveal">
+        <svg class="step-ill" viewBox="0 0 120 80" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M30 52l30-12 30 12-30 12z" opacity=".4"/><path d="M30 42l30-12 30 12-30 12z" opacity=".7"/><path d="M30 32l30-12 30 12-30 12z"/></g><circle cx="60" cy="31" r="3" fill="var(--accent)"/></svg>
+        <p class="step-n">03</p>
+        <h3>Animate in Blender</h3>
+        <p>Real layers, parented, with editable text. Spread, light and keyframe.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ LIVE SYNC ============ -->
+<section class="section section-live" id="live-sync">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow"><span class="sync-dot" aria-hidden="true"></span>Live Sync <span class="tag">Premium</span></p>
+      <h2>The design changed.<br>Your animation didn't.</h2>
+      <p class="section-lede">It's the day before launch and the button needs new copy. Without Live Sync that means rebuilding the shot. With it, you edit in Figma and the layer updates in Blender while your camera move keeps playing.</p>
+    </header>
+
+    <div class="sync-demo" id="sync-demo">
+      <p class="sr-only">Illustration of Live Sync: a button label is retyped in Figma, the change is sent to Blender, and the same label updates there while the animation timeline keeps playing.</p>
+      <div class="pane pane-figma" aria-hidden="true">
+        <div class="pane-title"><span>Figma</span><span class="muted">Frame / Hero</span></div>
+        <div class="fig-card">
+          <p class="fig-h">Ship faster</p>
+          <p class="fig-p">One workspace for the whole team.</p>
+          <div class="fig-btn fig-edit"><span class="sel" aria-hidden="true"></span><span class="txt" data-sync-src>Get started</span><span class="caret"></span></div>
+        </div>
+        <p class="fig-status"><span class="kbd-dot"></span><span data-sync-status>Editing text</span></p>
+      </div>
+
+      <div class="sync-link" aria-hidden="true">
+        <span class="sync-pulse"></span>
+        <span class="sync-ms">Live</span>
+      </div>
+
+      <div class="pane pane-blender" aria-hidden="true">
+        <div class="pane-title"><span>Blender</span><span class="muted"><span data-frame>48</span> / 120</span></div>
+        <div class="bl-scene">
+          <div class="bl-card">
+            <p class="fig-h">Ship faster</p>
+            <p class="fig-p">One workspace for the whole team.</p>
+            <div class="fig-btn bl-btn"><span class="txt" data-sync-dst>Get started</span></div>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="tl-track"><i style="left:12%"></i><i style="left:38%"></i><i style="left:64%"></i><i style="left:88%"></i></div>
+          <span class="tl-head"></span>
+        </div>
+      </div>
+    </div>
+    <div class="demo-foot">
+      <p class="caption">Illustration. Edits flow in; the playhead never stops.</p>
+      <button class="media-toggle" type="button" data-demo-toggle="sync-demo" aria-label="Pause animation" aria-pressed="false">
+        <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9M11 3.5v9"/></svg>
+        <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2l8 4.8-8 4.8z"/></svg>
+      </button>
+    </div>
+
+    <ul class="keeps">
+      <li><span class="k-ic" aria-hidden="true">◆</span><div><h3>Keyframes</h3><p>Your animation is stored as offsets, so a new layout never overwrites it.</p></div></li>
+      <li><span class="k-ic" aria-hidden="true">↔</span><div><h3>Nudges</h3><p>The layer you moved by hand stays where you put it.</p></div></li>
+      <li><span class="k-ic" aria-hidden="true">▤</span><div><h3>Modifiers</h3><p>Modifiers you have added stay on your layers.</p></div></li>
+      <li><span class="k-ic" aria-hidden="true">◐</span><div><h3>Material tweaks</h3><p>Your glass, metal and roughness edits survive the update.</p></div></li>
+    </ul>
+    <p class="fineprint">Updates match by layer ID. New layers are added, deleted ones are removed. Live Sync is in the Premium plan. Free and Regular can still re-push by hand and update in place.</p>
+  </div>
+</section>
+
+<!-- ============ LAYER DISTANCE (interactive) ============ -->
+<section class="section" id="explode">
+  <div class="wrap explode-grid">
+    <header class="section-head explode-copy">
+      <p class="eyebrow">Layer Distance</p>
+      <h2>Drag to explode.<br>Keyframes stay put.</h2>
+      <p class="section-lede">One slider spreads every layer in depth, the shot motion designers build by hand today. It's animatable, and it never touches your location keyframes.</p>
+      <p class="fineprint">Try it. The real slider lives in the Blender sidebar, alongside one-click Explode, Collapse and Stagger Reveal animations.</p>
+    </header>
+
+    <div class="ld" id="ld">
+      <div class="ld-stage" aria-hidden="true">
+        <div class="ld-plane">
+          <div class="ld-layer l0"><i class="bg"></i></div>
+          <div class="ld-layer l1"><i class="side"></i><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="big"></i></div>
+          <div class="ld-layer l2"><svg class="chart" viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M0 24 C12 20 18 8 30 12 S50 26 62 14 80 4 100 8"/></svg><i class="donut"></i></div>
+          <div class="ld-layer l3"><i class="t t1"></i><i class="t t2"></i><i class="t t3"></i><i class="t t4"></i><i class="t t5"></i></div>
+          <div class="ld-layer l4"><i class="chip"></i><i class="ico i1"></i><i class="ico i2"></i><i class="ico i3"></i></div>
+        </div>
+      </div>
+      <div class="ld-panel">
+        <div class="ld-row">
+          <label for="ld-range">Layer Distance</label>
+          <output id="ld-out" for="ld-range">0.00</output>
+        </div>
+        <input type="range" id="ld-range" min="0" max="100" value="0" step="1" aria-describedby="ld-hint">
+        <div class="ld-btns">
+          <button type="button" class="btn btn-ghost btn-sm" data-ld="100">Explode</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-ld="0">Collapse</button>
+        </div>
+        <div class="ld-keys">
+          <span class="ld-k-label">Location keys</span>
+          <span class="ld-k-track" aria-hidden="true"><i style="left:8%"></i><i style="left:36%"></i><i style="left:70%"></i><i style="left:94%"></i></span>
+          <span class="ld-k-state" id="ld-hint">Untouched</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="section" id="features">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">Features</p>
+      <h2>Real layers, not a flat picture.</h2>
+    </header>
+    <div class="grid">
+      <article class="card glow reveal">
+        <button class="card-media" type="button" data-lightbox="hierarchy" aria-label="Play larger: layer hierarchy demo">
+          <video data-lazy data-name="hierarchy" muted loop playsinline preload="none" width="1280" height="720" data-poster="/assets/video/hierarchy.webp" aria-hidden="true"></video>
+          <span class="play-badge" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 3.2l8 4.8-8 4.8z"/></svg></span>
+        </button>
+        <h3>Layer hierarchy intact</h3>
+        <p>Cards and groups become parented objects. Move a card and everything inside follows.</p>
+      </article>
+      <article class="card glow reveal">
+        <button class="card-media" type="button" data-lightbox="fidelity" aria-label="Play larger: visual fidelity demo">
+          <video data-lazy data-name="fidelity" muted loop playsinline preload="none" width="1280" height="720" data-poster="/assets/video/fidelity.webp" aria-hidden="true"></video>
+          <span class="play-badge" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 3.2l8 4.8-8 4.8z"/></svg></span>
+        </button>
+        <h3>Looks like Figma</h3>
+        <p>Corner radii, gradients, strokes, shadows, icons and images carry over, colours included.</p>
+      </article>
+      <article class="card glow reveal">
+        <button class="card-media" type="button" data-lightbox="text" aria-label="Play larger: editable text demo">
+          <video data-lazy data-name="text" muted loop playsinline preload="none" width="1280" height="720" data-poster="/assets/video/text.webp" aria-hidden="true"></video>
+          <span class="play-badge" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 3.2l8 4.8-8 4.8z"/></svg></span>
+        </button>
+        <h3>Real, editable text</h3>
+        <p>Native Blender text with matched fonts. Retype it any time.</p>
+      </article>
+      <article class="card glow reveal">
+        <button class="card-media" type="button" data-lightbox="solidify" aria-label="Play larger: instant 3D demo">
+          <video data-lazy data-name="solidify" muted loop playsinline preload="none" width="1280" height="720" data-poster="/assets/video/solidify.webp" aria-hidden="true"></video>
+          <span class="play-badge" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M5 3.2l8 4.8-8 4.8z"/></svg></span>
+        </button>
+        <h3>Instant 3D</h3>
+        <p>Thickness, glossy, glass, frosted and metal looks, a matched camera and light rigs.</p>
+      </article>
+      <article class="card glow reveal">
+        <div class="card-media card-art" aria-hidden="true">
+          <ul class="diff">
+            <li class="d-add"><b>+</b> 2 layers added</li>
+            <li class="d-mod"><b>~</b> 5 layers updated</li>
+            <li class="d-del"><b>−</b> 1 layer removed</li>
+            <li class="d-keep"><b>✓</b> Keyframes kept</li>
+          </ul>
+        </div>
+        <h3>Update in place</h3>
+        <p>Re-push and only what changed updates. Your scene setup stays.</p>
+      </article>
+      <article class="card glow reveal">
+        <div class="card-media card-art" aria-hidden="true">
+          <div class="speed">
+            <p class="speed-n"><span data-count="214">214</span> layers</p>
+            <div class="speed-bar"><i></i></div>
+            <p class="speed-t">≈ 0.5 s</p>
+          </div>
+        </div>
+        <h3>Fast on big screens</h3>
+        <p>A 214-layer screen imports in about half a second. Big scenes load in slices so Blender stays responsive.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<dialog class="lightbox" id="lightbox" aria-label="Demo video">
+  <div class="lb-inner">
+    <video id="lb-video" controls muted loop playsinline width="1280" height="720"></video>
+    <form method="dialog"><button class="lb-close" type="submit" aria-label="Close video">✕</button></form>
+  </div>
+</dialog>
+
+<!-- ============ COMPARISON ============ -->
+<section class="section" id="compare">
+  <div class="wrap">
+    <header class="section-head">
+      <p class="eyebrow">Why it's better</p>
+      <h2>Compared to the usual routes.</h2>
+    </header>
+    <div class="table-wrap">
+      <table class="compare">
+        <caption class="sr-only">Figment Bridge compared with rebuilding by hand and importing flat SVG or PNG exports</caption>
+        <thead>
+          <tr><th scope="col"><span class="sr-only">Feature</span></th><th scope="col" class="col-us">Figment Bridge</th><th scope="col">Rebuilding by hand</th><th scope="col">Flat SVG / PNG exports</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Layer hierarchy</th><td class="col-us" data-label="Figment Bridge">Parented objects</td><td data-label="By hand">Only if you build it</td><td data-label="Flat exports">Flattened</td></tr>
+          <tr><th scope="row">Editable text</th><td class="col-us" data-label="Figment Bridge">Native Blender text</td><td data-label="By hand">Retype each one</td><td data-label="Flat exports">Curves or images</td></tr>
+          <tr><th scope="row">After a design change</th><td class="col-us" data-label="Figment Bridge">Re-push, updates in place</td><td data-label="By hand">Rebuild</td><td data-label="Flat exports">Re-import from scratch</td></tr>
+          <tr><th scope="row">Animation safe</th><td class="col-us" data-label="Figment Bridge">Keyframes survive</td><td data-label="By hand">Manual rework</td><td data-label="Flat exports">Redo on the new objects</td></tr>
+          <tr><th scope="row">Time per screen</th><td class="col-us" data-label="Figment Bridge">Seconds</td><td data-label="By hand">Hours</td><td data-label="Flat exports">Minutes, plus cleanup</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="section" id="pricing">
+  <div class="wrap">
+    <header class="section-head center">
+      <p class="eyebrow">Pricing</p>
+      <h2>Start free. Pay once to keep going.</h2>
+      <p class="section-lede">Every tier has the full 3D toolkit. The only differences are how many imports you get and whether Live Sync is on.</p>
+    </header>
+    {{> pricing}}
+    {{> price-trust}}
+    <p class="fineprint center">Prices in {{config.currency}}. See the <a href="/refunds/">refund policy</a>.</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq">
+  <div class="wrap narrow">
+    <header class="section-head">
+      <p class="eyebrow">FAQ</p>
+      <h2>Questions, answered straight.</h2>
+    </header>
+    <div class="faq">
+      <details>
+        <summary>Which Blender and Figma versions work?</summary>
+        <div class="faq-a"><p>Figment Bridge is built for Blender 4.0 to 5.x and runs as a plugin in the Figma desktop app. So far it has been tested on Blender 5.0 only. Blender 4.0 to 4.4 are targeted but haven't been tested yet. Testing inside Figma itself is still limited, and the plugin is currently installed from its manifest (Plugins, Development, Import plugin from manifest) rather than from the Figma Community.</p></div>
+      </details>
+      <details>
+        <summary>Does it run on Windows, macOS and Linux?</summary>
+        <div class="faq-a"><p>It's been tested on Windows. macOS and Linux haven't been tested yet, so we can't promise they work.</p></div>
+      </details>
+      <details>
+        <summary>Does my design leave my computer?</summary>
+        <div class="faq-a"><p>No. The Figma plugin talks to Blender over a local connection on your own machine (127.0.0.1). Your designs, fonts and images are never uploaded anywhere.</p></div>
+      </details>
+      <details>
+        <summary>What counts as an import?</summary>
+        <div class="faq-a"><p>Each time you push a selection into Blender, that's one import. <!-- TODO(owner): confirm whether in-place updates of an existing scene count against the free limit. --></p></div>
+      </details>
+      <details>
+        <summary>What happens after the {{config.tiers.free.importLimit}} free imports?</summary>
+        <div class="faq-a"><p>Everything you've already imported stays in your Blender files. You can open it, animate it and render it as before. You just can't create new imports until you pick up Regular or Premium.</p></div>
+      </details>
+      <details>
+        <summary>What's the difference between re-pushing and Live Sync?</summary>
+        <div class="faq-a"><p>On every plan, you can push again after a change and Figment Bridge updates the existing scene in place, keeping your keyframes, modifiers and material tweaks. Live Sync (Premium) does that push for you automatically as you edit in Figma.</p></div>
+      </details>
+      <details>
+        <summary>Can I upgrade from Regular to Premium?</summary>
+        <div class="faq-a"><p>Yes, you can upgrade later. <!-- TODO(owner): confirm upgrade pricing (pay the difference or full price) and how the licence key changes. --></p></div>
+      </details>
+      <details>
+        <summary>Can I get a refund?</summary>
+        <div class="faq-a"><p>Our refund terms are on the <a href="/refunds/">refund policy page</a>. If something doesn't work for you, <a href="mailto:{{config.contactEmail}}">tell us</a> first.</p></div>
+      </details>
+      <details>
+        <summary>Can I use my licence on more than one machine?</summary>
+        <div class="faq-a"><p>We're finalising how many machines a licence covers. <a href="mailto:{{config.contactEmail}}">Ask us</a> if you need to know before buying. <!-- TODO(owner): replace with the final machine policy. --></p></div>
+      </details>
+      <details>
+        <summary>What doesn't it support yet?</summary>
+        <div class="faq-a">
+          <p>A few things are not reproduced in Blender yet:</p>
+          <ul>
+            <li>Blend modes and layer blur.</li>
+            <li>Shadows on shapes other than rectangles, ellipses and frames.</li>
+            <li>Clipping on rotated frames (axis-aligned frames are fine).</li>
+            <li>Strikethrough text.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final">
+  <div class="final-bg" aria-hidden="true"><img src="/assets/img/final-bg.webp" alt="" width="1280" height="720" loading="lazy" decoding="async"></div>
+  <div class="wrap final-inner">
+    <h2>Your next shot starts in Figma.</h2>
+    <a class="btn btn-primary btn-lg" href="{{config.freeCta.href}}">{{config.freeCta.label}}</a>
+  </div>
+</section>
+
+</main>
+{{> footer}}
+{{> scripts}}
+</body>
+</html>

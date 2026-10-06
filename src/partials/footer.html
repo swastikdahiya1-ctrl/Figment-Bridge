@@ -1,0 +1,29 @@
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="/" aria-label="{{config.name}} home">{{> logo}}<span>Figment Bridge</span></a>
+      <p>Design in Figma. It's already in Blender.</p>
+      <p class="muted small">Version {{config.version}}</p>
+    </div>
+    <nav aria-label="Product"><h2>Product</h2>
+      <a href="/#features">Features</a>
+      <a href="/#live-sync">Live Sync</a>
+      <a href="/pricing/">Pricing</a>
+      <a href="/quickstart/">Quickstart</a>
+      <a href="/changelog/">Changelog</a>
+    </nav>
+    <nav aria-label="Support"><h2>Support</h2>
+      <a href="/#faq">FAQ</a>
+      <a href="mailto:{{config.contactEmail}}">Contact</a>
+      <a href="/refunds/">Refunds</a>
+    </nav>
+    <nav aria-label="Legal"><h2>Legal</h2>
+      <a href="/terms/">Terms</a>
+      <a href="/privacy/">Privacy</a>
+    </nav>
+  </div>
+  <div class="wrap footer-base">
+    <span class="muted small">&copy; <span id="year">2026</span> {{config.name}}. Not affiliated with Figma or the Blender Foundation.</span>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>

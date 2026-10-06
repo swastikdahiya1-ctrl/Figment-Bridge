@@ -1,0 +1,36 @@
+---
+title: Changelog: Figment Bridge
+description: What's new in Figment Bridge.
+---
+<!doctype html>
+<html lang="en">
+<head>
+{{> head}}
+</head>
+<body>
+{{> header}}
+<main id="main">
+
+<section class="page-head"><div class="wrap narrow"><p class="eyebrow">Changelog</p><h1>What's new</h1></div></section>
+<section class="section tight">
+  <div class="wrap narrow prose">
+    <article class="release">
+      <h2>{{config.version}} <span class="tag">Current</span></h2>
+      <ul>
+        <li>Layered scenes with the real Figma hierarchy: cards, groups and frames become parented objects.</li>
+        <li>Update in place. Re-push and layers update by ID, keeping keyframes, nudges, modifiers and material tweaks. New layers are added and deleted ones removed.</li>
+        <li>Live Sync: optional auto-push while you edit in Figma.</li>
+        <li>Layer Distance slider spreads layers in depth without touching location keyframes.</li>
+        <li>Fidelity: per-corner radii, linear, radial, angular and diamond gradients, inside, centre and outside strokes, dashed strokes, shadows, rotation, clipping, native vector icons, images and editable text with font matching.</li>
+        <li>Blender tools: matched camera, light rigs, backdrop, explode, collapse and stagger-reveal animations, thickness per category, Glossy, Matte, Glass, Frosted and Metal materials, text and icon shadows, Flatten to 2D, Reset to Figma, select and isolate by category or frame, fonts report.</li>
+        <li>Fast imports: a 214-layer screen in about half a second, with large scenes imported in time slices so Blender stays responsive.</li>
+      </ul>
+      <p class="muted">Known limits: blend modes, layer blur and strikethrough text are not reproduced. Shadows are built for rectangles, ellipses and frames only. Clipping works for axis-aligned frames only.</p>
+    </article>
+  </div>
+</section>
+</main>
+{{> footer}}
+{{> scripts}}
+</body>
+</html>

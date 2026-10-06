@@ -1,0 +1,12 @@
+{
+  "name": "figment-bridge-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Marketing and pricing site for Figment Bridge",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/build.mjs && node scripts/serve.mjs",
+    "serve": "node scripts/serve.mjs"
+  }
+}

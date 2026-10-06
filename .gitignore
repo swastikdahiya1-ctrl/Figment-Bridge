@@ -1,0 +1,9 @@
+dist/
+node_modules/
+.env
+.env.*
+
+# internal working notes (not for the public repo)
+context.md
+website_prompt.md
+REPORT.md

@@ -1,0 +1,32 @@
+{
+  "name": "Figment Bridge",
+  "tagline": "Design in Figma. It's already in Blender.",
+  "url": "https://figment-bridge.vercel.app",
+  "version": "2.0.0",
+  "contactEmail": "hello@example.com",
+  "accent": "#5be3ff",
+
+  "_billing": "TODO(owner): billing model is not decided. 'one-time' is the default. For a subscription use '/ month' (or '/ year'); every price label on the site follows this one value.",
+  "billing": "one-time",
+  "currency": "USD",
+  "currencySymbol": "$",
+
+  "_downloads": "TODO(owner): point freeDownloadUrl at the real free build. Until then it opens the Quickstart page. The 10-import cap must be enforced by the add-on itself; it is not in the add-on source yet.",
+  "_freeBuild": "While freeBuildAvailable is false, every free CTA becomes 'Get early access' and opens waitlistUrl (or, if that is empty, an email to contactEmail). Flip to true once freeDownloadUrl points at the real free build.",
+  "freeBuildAvailable": false,
+  "freeDownloadUrl": "/quickstart/",
+  "waitlistUrl": "",
+
+  "_tiers": "Product IDs and checkout URLs go here and nowhere else. Leave checkoutUrl empty until the provider (likely Lemon Squeezy) is set up: buttons then show a 'checkout not connected yet' notice instead of a dead link. Never put API keys or secrets in this file.",
+  "tiers": {
+    "free": { "price": "0", "importLimit": 10 },
+    "regular": { "price": "9.99", "productId": "TODO", "checkoutUrl": "" },
+    "premium": { "price": "14.99", "productId": "TODO", "checkoutUrl": "" }
+  },
+
+  "_analytics": "Placeholder hook only. Nothing is loaded. Set enabled to true and add a script URL to wire a tracker (and add a cookie notice if it needs one).",
+  "analytics": { "enabled": false, "scriptUrl": "" },
+
+  "_extras": "Do not add perks (priority support, team seats, lifetime updates) until the owner confirms them.",
+  "lastUpdated": "2026-10-04"
+}

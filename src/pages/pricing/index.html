@@ -1,0 +1,56 @@
+---
+title: Pricing: Figment Bridge
+description: Free, Regular and Premium plans for Figment Bridge. Pay once. Premium adds Live Sync.
+---
+<!doctype html>
+<html lang="en">
+<head>
+{{> head}}
+</head>
+<body>
+{{> header}}
+<main id="main">
+
+<section class="page-head">
+  <div class="wrap">
+    <p class="eyebrow">Pricing</p>
+    <h1>Start free. Pay once to keep going.</h1>
+    <p class="lede">Every plan includes the full 3D toolkit. The differences are the number of imports and Live Sync.</p>
+  </div>
+</section>
+<section class="section tight">
+  <div class="wrap">
+    {{> pricing}}
+    {{> price-trust}}
+    <p class="fineprint center">Prices in {{config.currency}}. See the <a href="/refunds/">refund policy</a>.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <header class="section-head"><p class="eyebrow">Compare</p><h2>What each plan includes</h2></header>
+    <div class="table-wrap">
+      <table class="compare matrix">
+        <caption class="sr-only">Feature comparison of the Free, Regular and Premium plans</caption>
+        <thead><tr><th scope="col"><span class="sr-only">Feature</span></th><th scope="col">Free</th><th scope="col">Regular</th><th scope="col" class="col-us">Premium</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Figma → Blender imports</th><td>{{config.tiers.free.importLimit}}</td><td>Unlimited</td><td class="col-us">Unlimited</td></tr>
+          <tr><th scope="row">Layer hierarchy (parented objects)</th><td><span class="y">Yes</span></td><td><span class="y">Yes</span></td><td class="col-us"><span class="y">Yes</span></td></tr>
+          <tr><th scope="row">Gradients, strokes, radii, shadows, icons, images</th><td><span class="y">Yes</span></td><td><span class="y">Yes</span></td><td class="col-us"><span class="y">Yes</span></td></tr>
+          <tr><th scope="row">Editable text with matched fonts</th><td><span class="y">Yes</span></td><td><span class="y">Yes</span></td><td class="col-us"><span class="y">Yes</span></td></tr>
+          <tr><th scope="row">Layer Distance and explode animations</th><td><span class="y">Yes</span></td><td><span class="y">Yes</span></td><td class="col-us"><span class="y">Yes</span></td></tr>
+          <tr><th scope="row">Thickness and material presets</th><td><span class="y">Yes</span></td><td><span class="y">Yes</span></td><td class="col-us"><span class="y">Yes</span></td></tr>
+          <tr><th scope="row">Camera, light rigs and backdrop</th><td><span class="y">Yes</span></td><td><span class="y">Yes</span></td><td class="col-us"><span class="y">Yes</span></td></tr>
+          <tr><th scope="row">Update in place (re-push)</th><td><span class="y">Yes</span></td><td><span class="y">Yes</span></td><td class="col-us"><span class="y">Yes</span></td></tr>
+          <tr><th scope="row">Live Sync</th><td><span class="n">No<span class="sr-only"> (not included)</span></span></td><td><span class="n">No<span class="sr-only"> (not included)</span></span></td><td class="col-us"><span class="y">Yes</span></td></tr>
+          <tr><th scope="row">Price</th><td>{{config.currencySymbol}}0</td><td>{{config.currencySymbol}}{{config.tiers.regular.price}} <span class="muted small">{{config.priceNote}}</span></td><td class="col-us">{{config.currencySymbol}}{{config.tiers.premium.price}} <span class="muted small">{{config.priceNote}}</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fineprint">Questions before you buy? See the <a href="/#faq">FAQ</a> or <a href="mailto:{{config.contactEmail}}">email us</a>.</p>
+  </div>
+</section>
+</main>
+{{> footer}}
+{{> scripts}}
+</body>
+</html>
